@@ -1,3 +1,4 @@
+#pragma once
 
 class Node {
     private:
@@ -6,18 +7,20 @@ class Node {
         Node *next;
         Node *previous;
 
-        void set_id(int new_id);
         void set_value(int new_value);
 
         bool is_valid_value(int value);
 
     public:
         Node();
-        Node(int new_id, int new_value);
+        Node(int new_value);
 
+        void set_id(int new_id);
         void new_value(int new_value);
         void set_next(Node* new_next);
         void set_previous(Node* new_prev);
 
         int get_value();
+        Node* get_next();
+        Node* get_previous();
 };

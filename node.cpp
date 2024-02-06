@@ -4,9 +4,6 @@
 
 // private 
 
-void Node::set_id(int new_id){
-    this->id = new_id;
-};
 
 
 void Node::set_value(int new_value){
@@ -32,10 +29,13 @@ Node::Node(){
     this->next = nullptr;
 };
 
-Node::Node(int new_id, int new_value){
-    this->id = new_id;
+Node::Node(int new_value){
     this->value = new_value;
 }
+
+void Node::set_id(int new_id){
+    this->id = new_id;
+};
 
 void Node::new_value(int new_value){
     if (this->is_valid_value(new_value)){
@@ -56,3 +56,11 @@ void Node::set_previous(Node* new_prev){
 int Node::get_value(){
     return this->value;
 }
+
+Node* Node::get_next(){
+    return this->next;
+};
+
+Node* Node::get_previous(){
+    return this->previous;
+};

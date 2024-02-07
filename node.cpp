@@ -4,14 +4,11 @@
 
 // private 
 
-
-
 void Node::set_value(int new_value){
     this->value = new_value;    
 };
 
-
-// redundant for now, but will be useful later if I want to add logic to what is a valid value
+// redundant for now, but will be useful later if I want to add logic to determine a valid value
 bool Node::is_valid_value(int value){
     if (value == value){
         return true;

@@ -12,4 +12,5 @@ class LinkedQueue {
         void enqueue(int value);
         void dequeue();
         int peek_head();
+        int get_size();
     };

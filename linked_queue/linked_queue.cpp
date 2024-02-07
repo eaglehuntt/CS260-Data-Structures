@@ -14,13 +14,14 @@ void LinkedQueue::enqueue(int value) {
     Node *newNode = new Node(value);
     newNode->set_id(this->size);
 
-    this->tail = newNode;
-    newNode->set_next(this->head);
-    
-
     if (this->size == 0) {
         this->head = newNode;        
-    } 
+    } else {
+        this->tail->set_next(newNode);
+    }
+
+    this->tail = newNode;
+    newNode->set_next(nullptr);
 
     this->size++;
 
@@ -30,12 +31,18 @@ void LinkedQueue::enqueue(int value) {
 }
 
 void LinkedQueue::dequeue() {
-    std::cout << "Attempting to dequeue"<< std::endl;
     if (this->head != nullptr) {
         Node *temp = this->head;
-        this->head = this->head->get_next();
+        
+        if (this->size != 1) {
+            this->head = this->head->get_next();
+        } else {
+            this->head = nullptr;
+        }
         this->size--;
         delete temp;
+    } else {
+        std::cout << "Attemped to dequeue. Queue is empty." << std::endl;
     }
 
 }
@@ -47,4 +54,8 @@ int LinkedQueue::peek_head() {
     else {
         throw "Queue is empty";
     }
+}
+
+int LinkedQueue::get_size() {
+    return this->size;
 }

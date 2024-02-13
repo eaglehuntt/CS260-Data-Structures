@@ -4,9 +4,6 @@
 
 // private 
 
-void Node::set_value(int new_value){
-    this->value = new_value;    
-};
 
 // redundant for now, but will be useful later if I want to add logic to determine a valid value
 bool Node::is_valid_value(int value){
@@ -32,6 +29,9 @@ Node::Node(int new_value){
     this->next = nullptr;
 
 }
+void Node::set_value(int new_value){
+    this->value = new_value;    
+};
 
 void Node::set_index(int new_id){
     this->index = new_id;
@@ -55,7 +55,11 @@ void Node::set_previous(Node* new_prev){
 
 int Node::get_value(){
     return this->value;
-}
+};
+
+int Node::get_index(){
+    return this->index;
+};
 
 Node* Node::get_next(){
     return this->next;

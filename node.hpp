@@ -7,7 +7,6 @@ class Node {
         Node *next;
         Node *previous;
 
-        void set_value(int new_value);
 
         bool is_valid_value(int value);
 
@@ -15,6 +14,7 @@ class Node {
         Node();
         Node(int new_value);
 
+        void set_value(int new_value);
         void set_index(int new_index);
         void new_value(int new_value);
         void set_next(Node* new_next);
@@ -25,6 +25,7 @@ class Node {
         void set_left(Node* new_left);
 
         int get_value();
+        int get_index();
         Node* get_next();
         Node* get_previous();
 };

@@ -12,11 +12,12 @@ class ArbitraryList {
         ArbitraryList();
         void push(int value);
         void pop();
-        void remove(int index);
-        void insert(int index, int value);
-        void update(int index, int value);
-        void peek(int index);
+        void remove_at_index(int index);
+        void insert_at_index(int index, int value);
+        void update_value_at_index(int index, int value);
+        int get_value_at_index(int index);
         int get_size();
         Node* get_head();
         Node* get_tail();
+        void print();
 };

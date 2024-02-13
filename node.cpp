@@ -61,3 +61,12 @@ Node* Node::get_next(){
 Node* Node::get_previous(){
     return this->previous;
 };
+
+// Wrapper methods for next and previous, for a better interface when working with trees
+void Node::set_right(Node* new_right){
+    this->set_next(new_right);
+};
+
+void Node::set_left(Node* new_left){
+    this->set_previous(new_left);
+};

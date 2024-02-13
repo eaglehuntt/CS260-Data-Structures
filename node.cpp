@@ -21,7 +21,7 @@ bool Node::is_valid_value(int value){
 // public
 
 Node::Node(){
-    this->id = 0;
+    this->index = 0;
     this->value = 0;
     this->next = nullptr;
 };
@@ -31,7 +31,7 @@ Node::Node(int new_value){
 }
 
 void Node::set_id(int new_id){
-    this->id = new_id;
+    this->index = new_id;
 };
 
 void Node::new_value(int new_value){

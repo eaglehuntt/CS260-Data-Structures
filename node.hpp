@@ -2,7 +2,7 @@
 
 class Node {
     private:
-        int id;
+        int index;
         int value;
         Node *next;
         Node *previous;

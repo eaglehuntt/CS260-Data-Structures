@@ -15,7 +15,7 @@ class Node {
         Node();
         Node(int new_value);
 
-        void set_id(int new_id);
+        void set_index(int new_index);
         void new_value(int new_value);
         void set_next(Node* new_next);
         void set_previous(Node* new_prev);

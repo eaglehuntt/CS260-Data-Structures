@@ -12,7 +12,7 @@ LinkedQueue::LinkedQueue() {
 
 void LinkedQueue::enqueue(int value) {
     Node *newNode = new Node(value);
-    newNode->set_id(this->size);
+    newNode->set_index(this->size);
 
     if (this->size == 0) {
         this->head = newNode;        

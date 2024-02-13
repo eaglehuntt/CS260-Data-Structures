@@ -27,10 +27,13 @@ Node::Node(){
 };
 
 Node::Node(int new_value){
+    this->index = 0;
     this->value = new_value;
+    this->next = nullptr;
+
 }
 
-void Node::set_id(int new_id){
+void Node::set_index(int new_id){
     this->index = new_id;
 };
 

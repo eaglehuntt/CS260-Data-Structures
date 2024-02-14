@@ -6,7 +6,7 @@
 using namespace std;
 
 /* 
-    CLI Generated with ChatGPT
+    I made this CLI by modifying code generated with ChatGPT
 
     Prompt: 
     

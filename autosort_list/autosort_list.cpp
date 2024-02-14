@@ -41,6 +41,7 @@ void AutosortList::push(int value){
             std::cout << "inserting at the end" << std::endl;
             // Insert at the end
             this->tail->set_next(new_node);
+            new_node->set_previous(this->tail); // double link
             this->tail = new_node;
         } else if (prev == nullptr){
             std::cout << "inserting at the start" << std::endl;

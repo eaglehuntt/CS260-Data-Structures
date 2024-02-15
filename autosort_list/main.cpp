@@ -1,4 +1,7 @@
 #include <iostream>
+#include <string>
+#include <limits>
+
 #include "autosort_list.cpp" // Include header file for AutosortList
 #include "../node.cpp"
 
@@ -26,12 +29,12 @@ bool test_autosort() {
 void printHelp() {
     cout << "Autosort List CLI" << endl;
     cout << "Commands:" << endl;
-    cout << "[   p   ] push <int> - Push a node with the given value to the list" << endl;
-    cout << "[   o   ] pop - Pop a node from the list" << endl;
-    cout << "[   g   ] get <index> - Get the value of the node at the given index" << endl;
-    cout << "[   s   ] size - Get the size of the list" << endl;
-    cout << "[ print ] - Print the list" << endl;
-    cout << "[   h   ] help - Print this help message" << endl;
+    cout << "[push] <int>   |  Push a node with the given value to the list" << endl;
+    cout << "[pop]          |  Pop a node from the list" << endl;
+    cout << "[get] <index>  |  Get the value of the node at the given index" << endl;
+    cout << "[size]         |  Get the size of the list" << endl;
+    cout << "[print]        |  Print the list" << endl;
+    cout << "[help]         |  Show this help message" << endl;
 }
 
 int main() {
@@ -52,17 +55,34 @@ int main() {
         cout << "> ";
         cin >> command;
 
-        if(command == "p" || command == "P") {
+        if(command == "push" || command == "Push") {
             int value;
             cin >> value;
-            list->push(value);
-        } else if(command == "o" || command == "O") {
+            
+            // Check if the input value is an integer
+            if (cin.fail()) {
+                cout << "Invalid input. Please enter an integer value." << endl;
+                cin.clear(); // Clear the error flag
+                cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Discard invalid input
+            } else {
+                list->push(value);
+            }
+
+        } else if(command == "pop" || command == "Pop") {
             list->pop();
-        } else if(command == "g" || command == "G") {
+        } else if(command == "get" || command == "Get") {
             int index;
             cin >> index;
-            cout << "Value at index " << index << ": " << list->get_value_at_index(index) << endl;
-        } else if(command == "s" || command == "S") {
+
+            if (cin.fail()) {
+                cout << "Invalid input. Please enter an integer value for the index." << endl;
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            } else {
+                cout << "Value at index " << index << ": " << list->get_value_at_index(index) << endl;
+            }
+
+        } else if(command == "size" || command == "Size") {
             cout << "Size: " << list->get_size() << endl;
         } else if(command == "print" || command == "PRINT") {
             list->print();
@@ -72,6 +92,5 @@ int main() {
             cout << "Invalid command" << endl;
         }
     }
-
     return 0;
 }

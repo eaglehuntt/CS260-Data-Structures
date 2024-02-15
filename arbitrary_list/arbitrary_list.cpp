@@ -38,14 +38,26 @@ void ArbitraryList::push(int value){
 };
 
 void ArbitraryList::pop(){
-    if (this->head != nullptr){
+    if (this->size == 0){
+        std::cout << "list is empty! cannot pop" << std::endl;
+        return;
+    } else if (this->head == this->tail){
+        // std::cout << "deleting the head and tail" << std::endl;
+        delete this->head;
+        this->head = nullptr;
+        this->tail = nullptr;
+    } else {
+        // std::cout << "deleting just the tail " << std::endl;
         Node *old_tail = this->tail;
         this->tail = old_tail->get_previous();
         this->tail->set_next(nullptr);
         delete old_tail;
-        this->size--;
+
+        if (this->tail == nullptr) {
+            this->head = nullptr; // Update head if the list becomes empty
+        }
     }
-    // std::cout << "popped the last node from the list" << std::endl;
+    this->size--;
 };
 
 void ArbitraryList::remove_at_index(int index_to_remove) {
@@ -205,10 +217,24 @@ Node* ArbitraryList::get_tail(){
 }
 
 void ArbitraryList::print(){
+    std::string representation = "[";
+
     Node* current = this->head;
-    std::cout << current->get_value() << std::endl;
-    while (current->get_next() != nullptr) {
-        current = current->get_next(); // walk through the list of nodes
-        std::cout << current->get_value() << std::endl;
+    
+    if (this->head == nullptr){
+        std::cout << "[]" << std::endl;
+    }
+    else {
+        while (current != nullptr) {
+            if (current->get_index() == 0){
+                representation += std::to_string(current->get_value());
+            } else {
+                representation += + ", " +std::to_string(current->get_value());
+            }
+            // std::cout << current->get_value() << std::endl;
+            current = current->get_next(); // walk through the list of nodes
+        }
+        representation += "]";
+        std::cout << representation << std::endl;
     }
 }

@@ -21,9 +21,6 @@ using namespace std;
     
 
     ---
-
-    Of course ChatGPT did not get the tests or CLI fully correct, but it was a good enough to make adjustments. Copied, pasted, and modified
-
     Doing this actually helped me find a few bugs in my code, so I thought it was helpful.
 */
 

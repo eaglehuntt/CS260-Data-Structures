@@ -1,0 +1,49 @@
+Follow along with the in-class exercise on this, do your best to get it working, and turn in what you come up with here!
+
+Be sure to include at least one test for each function or piece of functionality that should verify that your code is working!  No slacking smile, you should start writing some tests before you write your implementations (just spend a few minutes thinking about the design and then write a few tests using natural language (English is preferred for me to be able to read it smile ))
+
+- Done
+
+Create an array-based list or a linked-list (and a bonus for attempting both) that:
+
+- I made a linked list
+
+automatically inserts values in the correct position based on some order of sorting (perhaps ascending integers or lexicographical sorting of words)
+
+- Ascending integers
+
+efficiently searches for elements (likely binary search for the array list, but what about the linked-list?)
+
+- Searches with a for loop. O(n) 
+
+Make a chart to compare the algorithmic complexity (use Big-O notation) of your insert, remove, and search algorithms you used for your structures
+
+push: O(n)
+
+This is because worst case I will iterate over each item in the linked list if we are inserting at the end, and will iterate over each item in the list to reindex everything. Even though we iterate twice, according to ChatGPT the coefficient is simplified out because it does not change the growth rate of the function as n increases.
+
+pop: O(1)
+
+This is because I already have a pointer to the tail, so it is just a few constant operations to update the new tail pointer and deleting the old tail.
+
+get_value_at_index: O(n)
+
+Even though it is 1/2n, according to ChatGPT we simplify that to O(n) because the coefficient is constant and does not affect the growth rate as n increases. Worst case, I iterate over 1/2 of the elements in the linked list.
+
+get_size: O(1)
+
+This is just one operation.
+
+get_head: O(1)
+
+This is just one operation.
+
+get_tail: O(1)
+
+This is just one operation.
+
+print: O(n)
+
+I iterate over each item in the list to append to a string which is printed out.
+
+Once you have implemented and tested your code, add to the README file what line(s) of code or inputs and outputs show your work meeting each of the above requirements (or better, include a small screen snip of where it meets the requirement!).

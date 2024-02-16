@@ -2,28 +2,85 @@
 #include <string>
 #include <limits>
 
-#include "autosort_list.cpp" // Include header file for AutosortList
+#include "autosort_list.cpp"
 #include "../node.cpp"
 
 using namespace std;
 
-bool test_autosort() {
-    cout << "Testing autosort..." << endl;
-    AutosortList *list = new AutosortList();
-
-    // Test autosort
-    list->push(3);
-    list->push(1);
+bool test_push() {
+    AutosortList *list = new AutosortList;
+    list->push(5);
     list->push(2);
-
-    if (list->get_size() != 3 || list->get_value_at_index(0) != 1 ||
-        list->get_value_at_index(1) != 2 || list->get_value_at_index(2) != 3) {
-        delete list;
-        return false;
-    }
-
+    list->push(8);
+    list->push(1);
+    list->push(4);
+    list->push(7);
+    
+    bool result = list->get_tail()->get_value() == 8;
     delete list;
-    return true;
+    return result;
+}
+
+bool test_pop() {
+    AutosortList *list = new AutosortList;
+    list->push(5);
+    list->push(2);
+    list->push(8);
+    list->push(1);
+    list->push(4);
+    list->push(7);
+
+    list->pop(); 
+    list->pop(); 
+
+    bool result = list->get_tail()->get_value() == 5;
+    delete list;
+    return result;
+}
+
+bool test_get_value_at_index() {
+    AutosortList *list = new AutosortList;
+    list->push(5);
+    list->push(2);
+    list->push(8);
+    list->push(1);
+    list->push(4);
+    list->push(7);
+
+    bool result = list->get_value_at_index(2) == 4;
+    delete list;
+    return result;
+}
+
+bool test_get_size() {
+    AutosortList *list = new AutosortList;
+    list->push(5);
+    list->push(2);
+    list->push(8);
+    list->push(1);
+    list->push(4);
+    list->push(7);
+
+    bool result = list->get_size() == 6;
+    delete list;
+    return result;
+}
+
+bool test_get_head_and_tail() {
+    AutosortList *list = new AutosortList;
+    list->push(5);
+    list->push(2);
+    list->push(8);
+    list->push(1);
+    list->push(4);
+    list->push(7);
+
+    int head_value = list->get_head()->get_value(); 
+    int tail_value = list->get_tail()->get_value(); 
+
+    bool result = head_value == 1 && tail_value == 8;
+    delete list;
+    return result;
 }
 
 void printHelp() {
@@ -39,7 +96,7 @@ void printHelp() {
 
 int main() {
     cout << "Running tests..." << endl;
-    if (test_autosort()) {
+    if (test_push() && test_pop() && test_get_head_and_tail() && test_get_size() && test_get_head_and_tail()) {
         cout << "All tests passed. Running demo..." << endl;
         cout << endl;
     } else {

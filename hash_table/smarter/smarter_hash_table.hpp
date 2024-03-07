@@ -1,8 +1,5 @@
 #include <string>
-#include <vector>
-
 using std::string;
-using std::vector;
 
 
 class HashTable {
@@ -18,10 +15,10 @@ public:
     int get_collisions(); 
 
 private:
-    int capacity = 10;
-    int size = 0;
-    int collision_count = 0; // Added collision count variable
+    int capacity;
+    int size;
+    int collision_count;
 
-    string *storage = nullptr;
+    string *array = nullptr;
     bool resize();
 };

@@ -43,9 +43,17 @@ void Graph::remove_node(char node_value) {
     // Find the node with the specified value
     for (auto it = nodes->begin(); it != nodes->end(); ++it) {
         if ((*it).value == node_value) {
-
-            // Remove edges connected to the node
+            
             for (auto edge : (*it).connected_to) { // for each edge it is connected to 
+                
+                /* 
+                    - edge: a pointer to the edge being removed.
+                    - edge->destination: accesses the destination node of the edge.
+                    - edge->destination->connected_to: accesses the vector containing all edges connected to the destination node.
+                    - std::find(...): This is the standard library function used to search for a value in a range defined by the iterators begin() and end().
+                */
+
+                // Remove edges connected to the node
 
                 // Remove the edge from the destination node's connected_to vector
                 auto destination_node = std::find(edge->destination->connected_to.begin(), edge->destination->connected_to.end(), edge);

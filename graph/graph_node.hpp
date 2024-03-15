@@ -7,6 +7,6 @@
 struct Edge;
 
 struct GraphNode {
-    char name;
+    char value;
     std::vector<Edge *> connected_to;
 };

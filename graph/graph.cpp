@@ -1,108 +1,82 @@
-#include <iostream>
-#include <vector>
-#include <queue>
-#include <limits>
+#include "graph.hpp"
+#include "graph_node.hpp"
+#include "edge.hpp"
 
-using namespace std;
+#include <algorithm> // Need to include this for std::find
 
-// Class to represent an edge
-class Edge {
-public:
-    int destination;
-    int weight;
-    
-    Edge(int dest, int w) : destination(dest), weight(w) {}
-};
+Graph::Graph() {
+    nodes = new vector<GraphNode>;
+    adjacency_list = new vector<vector<Edge>>;
+    number_of_vertices = 0;
+}
 
-// Class to represent a graph node
-class GraphNode {
-public:
-    int id;
+// Destructor
+Graph::~Graph() {
+    delete nodes;
+    delete adjacency_list;
+}
 
-    GraphNode(int _id) : id(_id) {}
-};
+void Graph::add_node(char node_value) {
+    // Create a new GraphNode with the given value
+    GraphNode* new_node = new GraphNode{node_value};
 
-// Class to represent a graph
-class Graph {
-public:
-    int numVertices;
-    vector<vector<Edge>> adjacencyList;
-    vector<GraphNode> nodes;
+    // Add the new node to the collection of nodes
+    nodes->push_back(*new_node);
 
-    Graph(int numVertices) : numVertices(numVertices) {
-        adjacencyList.resize(numVertices);
-        nodes.reserve(numVertices);
-        for (int i = 0; i < numVertices; ++i) {
-            nodes.emplace_back(i);
-        }
-    }
+    // Increment the number of vertices
+    number_of_vertices++;
 
-    // Function to add an edge to the graph
-    void addEdge(int source, int destination, int weight) {
-        adjacencyList[source].emplace_back(destination, weight);
-        // For undirected graph, add the reverse edge
-        // adjacencyList[destination].emplace_back(source, weight);
-    }
+    // Update adjacency list with an empty vector for the new node (no edges yet)
+    adjacency_list->push_back(vector<Edge>());
+}
 
-    // Function to get the weight of an edge between two vertices
-    int getEdgeWeight(int u, int v) {
-        for (const Edge& edge : adjacencyList[u]) {
-            if (edge.destination == v)
-                return edge.weight;
-        }
-        return numeric_limits<int>::max(); // No edge found
-    }
+void Graph::add_edge(GraphNode *source, GraphNode *destination, int weight) {
+    // Create a new edge
+    Edge* new_edge = new Edge{source, destination, weight};
 
-    // Dijkstra's algorithm
-    pair<vector<int>, vector<int>> dijkstra(int source) {
-        vector<int> dist(numVertices, numeric_limits<int>::max());
-        vector<int> prev(numVertices, -1); // -1 indicates undefined predecessor
-        dist[source] = 0;
+    // Add the edge to the source node's connected_to vector
+    source->connected_to.push_back(new_edge);
+    destination->connected_to.push_back(new_edge);
+}
 
-        auto compare = [&](int u, int v) { return dist[u] > dist[v]; };
-        priority_queue<int, vector<int>, decltype(compare)> pq(compare);
-        pq.push(source);
+void Graph::remove_node(char node_value) {
+    // Find the node with the specified value
+    for (auto it = nodes->begin(); it != nodes->end(); ++it) {
+        if ((*it).value == node_value) {
 
-        while (!pq.empty()) {
-            int u = pq.top();
-            pq.pop();
+            // Remove edges connected to the node
+            for (auto edge : (*it).connected_to) { // for each edge it is connected to 
 
-            for (const Edge& edge : adjacencyList[u]) {
-                int v = edge.destination;
-                int alt = dist[u] + edge.weight;
-                if (alt < dist[v]) {
-                    dist[v] = alt;
-                    prev[v] = u;
-                    pq.push(v);
+                // Remove the edge from the destination node's connected_to vector
+                auto destination_node = std::find(edge->destination->connected_to.begin(), edge->destination->connected_to.end(), edge);
+                
+                if (destination_node != edge->destination->connected_to.end()) {
+                    edge->destination->connected_to.erase(destination_node);
                 }
+                // Deallocate memory for the edge
+                delete edge;
             }
+            // Erase the node from the vector of nodes
+            nodes->erase(it);
+            break;
         }
-
-        return make_pair(dist, prev);
     }
-};
+}
 
-int main() {
-    // Create a graph with 4 vertices
-    Graph graph(4);
-
-    // Add some edges
-    graph.addEdge(0, 1, 10);
-    graph.addEdge(0, 2, 15);
-    graph.addEdge(1, 2, 20);
-    graph.addEdge(2, 3, 30);
-
-    // Run Dijkstra's algorithm from vertex 0
-    int source = 0;
-    auto result = graph.dijkstra(source);
-    vector<int> dist = result.first;
-    vector<int> prev = result.second;
-
-    // Output the distances and predecessors
-    for (int i = 0; i < graph.numVertices; ++i) {
-        cout << "Distance from vertex " << source << " to " << i << ": " << dist[i] << endl;
-        cout << "Predecessor of vertex " << i << ": " << prev[i] << endl;
+void Graph::remove_edge(GraphNode *source, GraphNode *destination) {
+    // Find the edge between the specified source and destination nodes
+    for (auto it = source->connected_to.begin(); it != source->connected_to.end(); ++it) {
+        if ((*it)->destination == destination) {
+            // Remove the edge from the source node's connected_to vector
+            source->connected_to.erase(it);
+            
+            // Find the edge in the destination node's connected_to vector
+            auto destination_it = std::find(destination->connected_to.begin(), destination->connected_to.end(), *it);
+            if (destination_it != destination->connected_to.end()) {
+                // Remove the edge from the destination node's connected_to vector
+                destination->connected_to.erase(destination_it);
+            }
+            break;
+        }
     }
-
-    return 0;
 }

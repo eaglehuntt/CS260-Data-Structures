@@ -15,10 +15,10 @@ class Graph {
 
     public:
     // collection of nodes
-    vector<GraphNode>* nodes;
+    vector<GraphNode*> *nodes;
 
     // collection of edges
-    vector<vector<Edge>>* adjacency_list;
+    vector<Edge *> adjacency_list;
 
     // size
     int number_of_vertices;
@@ -31,7 +31,7 @@ public:
     ~Graph();
 
     // add node
-    void add_node(char node_value);
+    GraphNode *add_node(char node_value);
 
     // add edge
     void add_edge(GraphNode* source, GraphNode* destination, int weight);
@@ -43,7 +43,7 @@ public:
     void remove_edge(GraphNode* source, GraphNode* destination);
 
     // shortest path (perhaps Dijkstra's algorithm)
-    void dijkstra(char source_node); // fix return type
+    void dijkstra(GraphNode* source_node); // fix return type
 
     // minimum spanning tree (perhaps Kruskal's algorithm)
     void kruskal(); // fix return type

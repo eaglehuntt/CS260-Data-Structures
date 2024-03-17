@@ -74,7 +74,6 @@ void Graph::dijkstra(GraphNode* source_node) { // pass in source_node
     for (auto& node : *nodes) {
         if (node == source_node) {
             dist[node] = 0; // Initialize source node distance to 0
-            prev[node] = node;
         } else {
             dist[node] = std::numeric_limits<int>::max(); // Initialize other nodes to INT_MAX
             prev[node] = nullptr;

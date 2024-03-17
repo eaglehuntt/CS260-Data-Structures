@@ -35,11 +35,13 @@ int main() {
     graph.add_edge(E, F, 9);
 
 
-    graph.dijkstra(B);
+    graph.dijkstra(A, F);
+
+    // graph.kruskal();
 
 
     // example in class
-    Graph graph2 = Graph();
+    /* Graph graph2 = Graph();
 
     GraphNode *Z = graph2.add_node('Z');
     GraphNode *Y = graph2.add_node('Y');
@@ -49,6 +51,6 @@ int main() {
     graph2.add_edge(Y, X, 8);
     graph2.add_edge(Z, X, 9);
 
-    graph2.dijkstra(Z);
+    graph2.dijkstra(Z); */
     
 }

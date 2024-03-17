@@ -9,9 +9,15 @@
 
 using std::cout;
 using std::endl;
+using std::pair;
+using std::unordered_map;
+using std::priority_queue;
+using std::greater;
+using std::numeric_limits;
+using std::sort;
 
 Graph::Graph() {
-    nodes = new std::vector<GraphNode*>;
+    nodes = new vector<GraphNode*>;
     number_of_vertices = 0;
 }
 
@@ -48,20 +54,21 @@ void Graph::add_edge(GraphNode *source, GraphNode *destination, int weight) {
 
 }
 
-void Graph::dijkstra(GraphNode* source_node) {
+// Requires source node. If destination node is nullptr, it will print the shortest path to every possible node
+void Graph::dijkstra(GraphNode* source_node, GraphNode* destination_node) {
     // dist[GraphNode] -> int (weight)
-    std::unordered_map<GraphNode*, int> dist;
+    unordered_map<GraphNode*, int> dist;
 
     // Initialize distances and previous nodes
-    std::unordered_map<GraphNode*, GraphNode*> prev;
+    unordered_map<GraphNode*, GraphNode*> prev;
 
-    std::priority_queue<std::pair<int, GraphNode*>, std::vector<std::pair<int, GraphNode*>>, std::greater<std::pair<int, GraphNode*>>> PQ;
+    priority_queue<pair<int, GraphNode*>, vector<pair<int, GraphNode*>>, greater<pair<int, GraphNode*>>> PQ;
 
     for (auto& node : *nodes) {
         if (node == source_node) {
             dist[node] = 0; // Initialize source node distance to 0
         } else {
-            dist[node] = std::numeric_limits<int>::max(); // Initialize other nodes to INT_MAX
+            dist[node] = numeric_limits<int>::max(); // Initialize other nodes to INT_MAX
         }
         prev[node] = nullptr; // Initialize previous node for each node
 
@@ -69,7 +76,7 @@ void Graph::dijkstra(GraphNode* source_node) {
     }
 
     while (!PQ.empty()) {
-        std::pair<int, GraphNode*> current_node = PQ.top();
+        pair<int, GraphNode*> current_node = PQ.top();
         PQ.pop();
 
         GraphNode* u = current_node.second;
@@ -89,11 +96,66 @@ void Graph::dijkstra(GraphNode* source_node) {
                 PQ.push({dist[v], v});
             }
         }
+    }  
+
+    if (destination_node == nullptr) {
+        cout << "Shortest path from source to every node in graph" << endl;
+        cout << "Shortest path from " << source_node->value << ":" << endl;
+        for (const auto& pair : dist) {
+            cout << "(" << source_node->value << " -> " << pair.first->value << ": " << pair.second << "), ";
+        }
+        cout << endl;
+    } else {
+        cout << "(" << source_node->value << " -> " << destination_node->value << ": " << dist[destination_node] << ")" << endl;
     }
 
-    std::cout << "Shortest path from " << source_node->value << ":" << std::endl;
-    for (const auto& pair : dist) {
-        std::cout << "(" << source_node->value << " -> " << pair.first->value << ": " << pair.second << "), ";
+}
+
+
+void Graph::kruskal() {
+    // referenced this pseudo code: https://en.wikipedia.org/wiki/Kruskal%27s_algorithm
+
+    // Initialize the forest F as an empty set
+    vector<Edge*> F;
+
+    // Sort the edges in increasing order of weight
+    sort(adjacency_list.begin(), adjacency_list.end(), [](Edge* a, Edge* b) {
+        return a->weight < b->weight;
+    });
+
+    // Create a disjoint set for each node in the graph
+    // for each v in G.V do
+        // MAKE-SET(v)
+    unordered_map<GraphNode*, GraphNode*> parent;
+    for (auto node : *nodes) {
+        parent[node] = node;
     }
-    std::cout << std::endl;
+
+    // Iterate over the sorted edges
+    for (Edge* edge : adjacency_list) {
+        GraphNode* u = edge->source;
+        GraphNode* v = edge->destination;
+
+        // Find the parent of u and v
+        GraphNode* parent_u = parent[u];
+        GraphNode* parent_v = parent[v];
+
+        // If u and v are not in the same set, add the edge to the forest
+        if (parent_u != parent_v) {
+            F.push_back(edge);
+
+            // Merge the sets containing u and v
+            for (auto& pair : parent) {
+                if (pair.second == parent_v) {
+                    pair.second = parent_u;
+                }
+            }
+        }
+    }
+
+    // Output the minimum spanning tree
+    cout << "Minimum Spanning Tree (Kruskal's Algorithm):" << endl;
+    for (Edge* edge : F) {
+        cout << edge->source->value << " - " << edge->destination->value << " : " << edge->weight << endl;
+    }
 }

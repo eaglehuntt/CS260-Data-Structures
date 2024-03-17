@@ -43,7 +43,7 @@ public:
     void remove_edge(GraphNode* source, GraphNode* destination);
 
     // shortest path (perhaps Dijkstra's algorithm)
-    void dijkstra(GraphNode* source_node); // fix return type
+    void dijkstra(GraphNode* source_node, GraphNode* destination_node); // fix return type
 
     // minimum spanning tree (perhaps Kruskal's algorithm)
     void kruskal(); // fix return type

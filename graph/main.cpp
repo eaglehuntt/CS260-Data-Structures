@@ -32,10 +32,10 @@ int main() {
 
     graph.add_edge(D, E, 6);
 
-    graph.add_edge(F, E, 9);
+    graph.add_edge(E, F, 9);
 
 
-    graph.dijkstra(A);
+    graph.dijkstra(B);
 
 
     // example in class

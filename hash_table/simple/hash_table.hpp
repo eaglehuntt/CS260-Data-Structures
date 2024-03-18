@@ -10,6 +10,7 @@ public:
     string get_value(string key);
     int get_size();
     int get_collisions(); 
+    bool contains(string value);
 
 private:
     int capacity = 10;

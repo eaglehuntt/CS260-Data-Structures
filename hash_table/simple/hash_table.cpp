@@ -12,18 +12,19 @@ HashTable::HashTable() {
 }
 
 int HashTable::hash(string key) {
-    cout << key << endl;
     // string hash function
     std::hash<string> string_hash;
     
-    // hash value, ensure it does not go above capacity
-    int hashed_key = string_hash(key) % capacity;
+    // hash value
+    size_t hashed_key = string_hash(key);
 
-    cout << "hashed key: " << hashed_key << endl;
+    // convert hash value to int and ensure it's positive
+    int index = static_cast<int>(hashed_key) % capacity;
+    index = (index < 0) ? -index : index; // take absolute value
     
-    // if result is negative add the capacity to it
-    return (hashed_key < 0) ? hashed_key + capacity : hashed_key;
+    return index;
 }
+
 
 int HashTable::add(string key, string value){
     int index = hash(key);
@@ -32,11 +33,12 @@ int HashTable::add(string key, string value){
 
     if (collision) {
         collision_count += 1;
-        index *= -1; // if index is negative, we collided
+        cout << "Collision at index: " << index << endl;
+        array[index] = value;
     } else {
         size++;
         array[index] = value;
-        // resize when smarter
+        // resize when smarter, also handle collisions
         // if (static_cast<double>(size) / capacity > 0.75) {
         //     resize();
         // }
@@ -56,4 +58,17 @@ string HashTable::get_value(string key) {
         cout << "Value is not in table" << endl;
     }
     return value;    
+}
+
+int HashTable::get_collisions() {
+    return collision_count;
+}
+
+bool HashTable::contains(string value) {
+    for (int i = 0; i < size; ++i) {
+        if (array[i] == value) {
+            return true;
+        }
+    }
+    return false;
 }

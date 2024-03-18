@@ -36,17 +36,10 @@ public:
     // add edge
     void add_edge(GraphNode* source, GraphNode* destination, int weight);
 
-    // remove node?  Should we remove dangling edges (this could be an optional parameter)
-    void remove_node(char node_value);
-
-    // remove edge? (careful to remove edge pointer from each node that the edge connects)
-    void remove_edge(GraphNode* source, GraphNode* destination);
-
     // shortest path (perhaps Dijkstra's algorithm)
     void dijkstra(GraphNode* source_node, GraphNode* destination_node); // fix return type
 
     // minimum spanning tree (perhaps Kruskal's algorithm)
-    void kruskal(); // fix return type
+    void kruskal();
 
-    // helper functions?
 };

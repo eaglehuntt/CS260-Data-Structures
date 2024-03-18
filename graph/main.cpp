@@ -35,7 +35,7 @@ bool test_add_node() {
     return passed;
 }
 
-bool test_pass_edge() {
+bool test_add_edge() {
     Graph graph;
     bool passed = true;
 
@@ -71,7 +71,7 @@ bool test_pass_edge() {
 int main() {    
 
     cout << "Running tests..." << endl;
-    if (test_add_node() && test_pass_edge()) {
+    if (test_add_node() && test_add_edge()) {
         cout << "All tests passed... Running example code" << endl;
     } else {
         cout << "Tests failed. Exiting" << endl;

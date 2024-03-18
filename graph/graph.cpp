@@ -62,7 +62,7 @@ void Graph::dijkstra(GraphNode* source_node, GraphNode* destination_node) {
     // Initialize distances and previous nodes
     unordered_map<GraphNode*, GraphNode*> prev;
 
-    priority_queue<pair<int, GraphNode*>, vector<pair<int, GraphNode*>>, greater<pair<int, GraphNode*>>> PQ;
+    priority_queue<pair<int, GraphNode*>, vector<pair<int, GraphNode*>>, greater<pair<int, GraphNode*>>> priority_queue;
 
     for (auto& node : *nodes) {
         if (node == source_node) {
@@ -72,12 +72,12 @@ void Graph::dijkstra(GraphNode* source_node, GraphNode* destination_node) {
         }
         prev[node] = nullptr; // Initialize previous node for each node
 
-        PQ.push({dist[node], node});
+        priority_queue.push({dist[node], node});
     }
 
-    while (!PQ.empty()) {
-        pair<int, GraphNode*> current_node = PQ.top();
-        PQ.pop();
+    while (!priority_queue.empty()) {
+        pair<int, GraphNode*> current_node = priority_queue.top();
+        priority_queue.pop();
 
         GraphNode* u = current_node.second;
 
@@ -93,18 +93,21 @@ void Graph::dijkstra(GraphNode* source_node, GraphNode* destination_node) {
                 prev[v] = u;
 
                 // Update priority queue by pushing the updated distance
-                PQ.push({dist[v], v});
+                priority_queue.push({dist[v], v});
             }
         }
     }  
 
     if (destination_node == nullptr) {
-        cout << "Shortest path from source to every node in graph" << endl;
-        cout << "Shortest path from " << source_node->value << ":" << endl;
+        cout << "Shortest path (Dijkstra's Algorithm) " << endl;
+        cout << "Source Node " << source_node->value << endl;
+        cout << endl;
         for (const auto& pair : dist) {
             cout << "(" << source_node->value << " -> " << pair.first->value << ": " << pair.second << "), ";
         }
         cout << endl;
+        cout << endl;
+
     } else {
         cout << "(" << source_node->value << " -> " << destination_node->value << ": " << dist[destination_node] << ")" << endl;
     }
@@ -154,7 +157,7 @@ void Graph::kruskal() {
     }
 
     // Output the minimum spanning tree
-    cout << "Minimum Spanning Tree (Kruskal's Algorithm):" << endl;
+    cout << "Minimum Spanning Tree (Kruskal's Algorithm)" << endl;
     for (Edge* edge : F) {
         cout << edge->source->value << " - " << edge->destination->value << " : " << edge->weight << endl;
     }

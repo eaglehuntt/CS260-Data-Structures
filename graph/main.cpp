@@ -109,6 +109,9 @@ int main() {
     graph.dijkstra(A, nullptr);
     graph.kruskal();
 
+    cout << endl;
+    cout << "Graph 1 from source 'C' to destination 'F': " << endl;
+    graph.dijkstra(C, F);
 
     // example in class
     cout << endl;

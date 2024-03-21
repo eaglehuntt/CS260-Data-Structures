@@ -42,6 +42,14 @@ GraphNode* Graph::add_node(char node_value) {
 }
 
 void Graph::add_edge(GraphNode *source, GraphNode *destination, int weight) {
+    // Check if an edge between source and destination already exists, if so update the weight
+    for (Edge* edge : adjacency_list) {
+        if ((edge->source == source && edge->destination == destination) ||
+            (edge->source == destination && edge->destination == source)) {
+            edge->weight = weight;
+            return;
+        }
+    }
     // Create a new edge
     Edge* new_edge = new Edge{source, destination, weight};
 
@@ -51,11 +59,10 @@ void Graph::add_edge(GraphNode *source, GraphNode *destination, int weight) {
 
     // Update adjacency list
     adjacency_list.push_back(new_edge);
-
 }
 
 // Requires source node. If destination node is nullptr, it will print the shortest path to every possible node
-void Graph::dijkstra(GraphNode* source_node, GraphNode* destination_node) {
+int Graph::dijkstra(GraphNode* source_node, GraphNode* destination_node) {
     // dist[GraphNode] -> int (weight)
     unordered_map<GraphNode*, int> dist;
 
@@ -107,17 +114,17 @@ void Graph::dijkstra(GraphNode* source_node, GraphNode* destination_node) {
         }
         cout << endl;
         cout << endl;
+        return -1; // We just wanted to print all shortest paths
 
     } else {
-        cout << "(" << source_node->value << " -> " << destination_node->value << ": " << dist[destination_node] << ")" << endl;
+        return dist[destination_node];
     }
 
 }
 
 
-void Graph::kruskal() {
+int Graph::kruskal(bool print) {
     // referenced this pseudo code: https://en.wikipedia.org/wiki/Kruskal%27s_algorithm
-
     // Initialize the forest F as an empty set
     vector<Edge*> F;
 
@@ -156,9 +163,21 @@ void Graph::kruskal() {
         }
     }
 
-    // Output the minimum spanning tree
-    cout << "Minimum Spanning Tree (Kruskal's Algorithm)" << endl;
+    // Calculate the total weight of the MST
+    int totalWeight = 0;
     for (Edge* edge : F) {
-        cout << edge->source->value << " - " << edge->destination->value << " : " << edge->weight << endl;
+        totalWeight += edge->weight;
     }
+
+
+    if (print) {
+        // Output the minimum spanning tree
+        std::cout << "Minimum Spanning Tree (Kruskal's Algorithm)" << std::endl;
+        for (Edge* edge : F) {
+            std::cout << edge->source->value << " - " << edge->destination->value << " : " << edge->weight << std::endl;
+        }
+    }
+
+
+    return totalWeight;
 }

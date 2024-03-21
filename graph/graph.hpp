@@ -37,9 +37,10 @@ public:
     void add_edge(GraphNode* source, GraphNode* destination, int weight);
 
     // shortest path (perhaps Dijkstra's algorithm)
-    void dijkstra(GraphNode* source_node, GraphNode* destination_node); // fix return type
+    // destination is optionally nullptr. If it is nullptr, it will cout all the paths and return -1
+    // if destination node is provided, it will return the weight of the shortest path
+    int dijkstra(GraphNode* source_node, GraphNode* destination_node); 
 
     // minimum spanning tree (perhaps Kruskal's algorithm)
-    void kruskal();
-
+    int kruskal(bool print);
 };

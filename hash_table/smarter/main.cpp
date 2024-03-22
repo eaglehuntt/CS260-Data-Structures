@@ -1,21 +1,61 @@
 #include "hash_table.cpp"
 #include <string>
-#include <iostream>
 #include <sstream>
+#include <iostream>
 
+using std::string;
 using std::cout;
 using std::cin;
 using std::endl;
-using std::string;
-using std::stringstream;
+
+bool test_double_hash() {
+    HashTable ht;
+    string key = "test";
+    int hashed_value = ht.double_hash(key);
+    // Check if the hashed value is within the range of the hash table capacity
+    bool result = (hashed_value >= 0 && hashed_value < ht.get_capacity());
+    cout << "test_double_hash: ";
+    if (result)
+        cout << "Passed" << endl;
+    else
+        cout << "Failed" << endl;
+    return result;
+}
+
 
 bool test_hash() {
     HashTable ht;
     string key = "test";
     int hashed_value = ht.hash(key);
     // Check if the hashed value is within the range of the hash table capacity
-    bool result = (hashed_value >= 0 && hashed_value < ht.capacity);
-    cout << "Test hash function: ";
+    bool result = (hashed_value >= 0 && hashed_value < ht.get_capacity());
+    cout << "test_hash: ";
+    if (result)
+        cout << "Passed" << endl;
+    else
+        cout << "Failed" << endl;
+    return result;
+}
+
+bool test_get_next_prime() {
+    HashTable ht;
+    int prime = ht.get_next_prime(10);
+    // Test if it correctly finds the next prime number
+    bool result = (prime > 10); // Prime number should be greater than 10
+    cout << "test_get_next_prime: ";
+    if (result)
+        cout << "Passed" << endl;
+    else
+        cout << "Failed" << endl;
+    return result;
+}
+
+bool test_is_prime() {
+    HashTable ht;
+    bool prime = ht.is_prime(11);
+    // Test if it correctly identifies prime numbers
+    bool result = prime;
+    cout << "test_is_prime: ";
     if (result)
         cout << "Passed" << endl;
     else
@@ -85,9 +125,10 @@ bool test_get_collisions(){
 }
 
 bool run_tests(){
-    bool result = (test_contains() && test_get_value() && test_get_collisions() && test_hash());
-    return result;
+    cout << "Running tests..." << endl;
+    return (test_hash() && test_double_hash() && test_contains() && test_get_value() && test_get_collisions && test_get_next_prime() && test_is_prime());
 }
+
 
 void displayMenu() {
     cout << "1. Add key-value pair" << endl;

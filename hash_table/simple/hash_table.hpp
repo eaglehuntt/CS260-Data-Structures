@@ -11,9 +11,9 @@ public:
     int get_size();
     int get_collisions(); 
     bool contains(string value);
+    int capacity = 10;
 
 private:
-    int capacity = 10;
     int size = 0;
     int collision_count = 0;
 

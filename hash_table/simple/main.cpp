@@ -1,73 +1,142 @@
 #include "hash_table.cpp"
 #include <string>
+#include <iostream>
+#include <sstream>
 
+using std::cout;
+using std::cin;
+using std::endl;
 using std::string;
+using std::stringstream;
 
-int main() {
+bool test_contains(){ // this also tests adding
+    bool passed;
     HashTable *ht = new HashTable;
 
-    // Add key-value pairs that may result in collisions
     ht->add("hello", "world");
-    ht->add("cat", "meow");
-    ht->add("banana", "fruit");
-    ht->add("apple", "fruit");
-    ht->add("table", "furniture");
-    ht->add("chair", "furniture");
-    ht->add("sofa", "furniture");
-    ht->add("lamp", "furniture");
-    ht->add("pen", "writing instrument");
-    ht->add("pencil", "writing instrument");
-    ht->add("marker", "writing instrument");
-    ht->add("book", "reading material");
-    ht->add("newspaper", "reading material");
-    ht->add("magazine", "reading material");
-    ht->add("desk", "furniture");
-    ht->add("bed", "furniture");
-    ht->add("wardrobe", "furniture");
-    ht->add("orange", "fruit");
-    ht->add("shirt", "clothing");
-    ht->add("pants", "clothing");
-    ht->add("shoes", "footwear");
-    ht->add("socks", "footwear");
-    ht->add("gloves", "clothing");
-    ht->add("hat", "clothing");
-    ht->add("scarf", "clothing");
-    ht->add("glasses", "eyewear");
-    ht->add("watch", "accessory");
-    ht->add("bracelet", "accessory");
-    ht->add("necklace", "accessory");
-    ht->add("ring", "accessory");
-    ht->add("earrings", "accessory");
-    ht->add("bag", "accessory");
-    ht->add("backpack", "accessory");
-    ht->add("wallet", "accessory");
-    ht->add("phone", "electronic device");
-    ht->add("tablet", "electronic device");
-    ht->add("laptop", "electronic device");
-    ht->add("keyboard", "computer peripheral");
-    ht->add("mouse", "computer peripheral");
-    ht->add("headphones", "audio accessory");
-    ht->add("earbuds", "audio accessory");
-    ht->add("speaker", "audio accessory");
-    ht->add("microphone", "audio accessory");
-    ht->add("monitor", "computer peripheral");
-    ht->add("dog", "bark");
+    bool contains_hello = ht->contains("hello");
+    bool contains_world = ht->contains("world");
 
-    // Retrieve values for some keys
-    string output_hello = ht->get_value("hello");
-    string output_cat = ht->get_value("cat");
-    string output_orange = ht->get_value("orange");
+    if (!contains_hello && contains_world){
+        passed = true;
+        cout << "test_contains: Passed" << endl;
+    } else { 
+        passed = false;
+        cout << "test_contains: Failed" << endl;
+    }
 
-    // Output the retrieved values
-    cout << "Value for 'hello': " << output_hello << endl;
-    cout << "Value for 'cat': " << output_cat << endl;
-    cout << "Value for 'orange': " << output_orange << endl;
-    cout << ht->get_collisions() << endl;
-    cout << "ht->contains('Nan'): " << ht->contains("NaN") << endl;
-    cout << "ht->contains('bark'): " << ht->contains("bark") << endl;
-
-
-    // Clean up memory
     delete ht;
+    return passed;
+}
+
+bool test_get_value() {
+    bool passed;
+    HashTable *ht = new HashTable;
+
+    ht->add("hello", "world");
+
+    string z = ht->get_value("test"); 
+    string y = ht->get_value("hello");
+
+    if (z == "" && y == "world"){
+        cout << "test_get_value: Passed" << endl;
+        passed = true;
+    } else {
+        cout << "test_get_value: Failed" << endl;
+        passed = false;
+    }
+
+    delete ht;
+    return passed;
+}
+
+bool test_get_collisions(){
+    bool passed;
+    HashTable *ht = new HashTable;
+
+    // through a lot of frustration I found out the hard way these collide
+    ht->add("hello", "world");
+    ht->add("world", "hello");
+
+    if (ht->get_collisions() == 1){
+        passed = true;
+        cout << "test_collisions: Passed" << endl;
+    } else { 
+        passed = false;
+        cout << "test_collisions: Failed" << endl;
+    }
+
+    delete ht;
+    return passed;
+}
+
+bool run_tests(){
+    bool result = (test_contains() && test_get_value() && test_get_collisions());
+    return result;
+}
+
+void displayMenu() {
+    cout << "1. Add key-value pair" << endl;
+    cout << "2. Get value for key" << endl;
+    cout << "3. Check if value exists" << endl;
+    cout << "4. Display number of collisions" << endl;
+    cout << "5. Exit" << endl;
+}
+
+// cli made with chatgpt
+int main() {
+    run_tests();
+    HashTable ht;
+    int choice;
+    string key, value;
+
+    do {
+        displayMenu();
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1:
+                cout << "Enter key: ";
+                cin >> key;
+                cout << "Enter value: ";
+                cin >> value;
+                ht.add(key, value);
+                cout << "Key-value pair added successfully." << endl;
+                cout << endl;
+                break;
+            case 2:
+                cout << "Enter key: ";
+                cin >> key;
+                cout << endl;
+                cout << "Value for key '" << key << "': " << ht.get_value(key) << endl;
+                cout << endl;
+                break;
+            case 3:
+                cout << "Enter value to check: ";
+                cin >> value;
+                if (ht.contains(value)) {
+                    cout << "Value '" << value << "' exists in the hash table." << endl;
+                    cout << endl;
+                } else {
+                    cout << "Value '" << value << "' does not exist in the hash table." << endl;
+                    cout << endl;
+                }
+                break;
+            case 4:
+                cout << "Number of collisions: " << ht.get_collisions() << endl;
+                cout << endl;
+                break;
+            case 5:
+                cout << "Exiting..." << endl;
+                cout << endl;
+                break;
+            default:
+                cout << "Invalid choice. Please enter a number between 1 and 5." << endl;
+                cout << endl;
+        }
+
+    } while (choice != 5);
+
     return 0;
 }

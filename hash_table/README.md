@@ -9,4 +9,6 @@ They can be used in cryptography, complex data structures, or be useful in a cod
 
 When comparing my dumb vs smarter hashtable, there seem to be way fewer collisions, and when there is a collision the smarter one handles it a lot better.
 
-On the dumb hashtable, 
+On the dumb hashtable, the write time and lookup time are always O(1), but it will just overwrite a previous value if there is a collision.
+
+The smarter hashtable handles collisions with a secondary hashing method, but its write method could be O(n) worst case.

@@ -64,7 +64,7 @@ bool test_get_value() {
     return passed;
 }
 
-bool test_get_collisions(){
+bool test_collisions(){
     bool passed;
     HashTable *ht = new HashTable;
 
@@ -85,7 +85,7 @@ bool test_get_collisions(){
 }
 
 bool run_tests(){
-    bool result = (test_contains() && test_get_value() && test_get_collisions() && test_hash());
+    bool result = (test_contains() && test_get_value() && test_collisions() && test_hash());
     return result;
 }
 

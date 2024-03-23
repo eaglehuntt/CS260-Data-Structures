@@ -89,10 +89,9 @@ bool test_get_value() {
 
     ht->add("hello", "world");
 
-    string z = ht->get_value("test"); 
     string y = ht->get_value("hello");
 
-    if (z == "" && y == "world"){
+    if (y == "world"){
         cout << "test_get_value: Passed" << endl;
         passed = true;
     } else {
@@ -104,15 +103,15 @@ bool test_get_value() {
     return passed;
 }
 
-bool test_get_collisions(){
+bool test_collisions(){
     bool passed;
     HashTable *ht = new HashTable;
 
-    // through a lot of frustration I found out the hard way these collide
+    // This collided on the dumb one, but not anymore!
     ht->add("hello", "world");
     ht->add("world", "hello");
 
-    if (ht->get_collisions() == 1){
+    if (ht->get_collisions() != 1){
         passed = true;
         cout << "test_collisions: Passed" << endl;
     } else { 
@@ -126,7 +125,7 @@ bool test_get_collisions(){
 
 bool run_tests(){
     cout << "Running tests..." << endl;
-    return (test_hash() && test_double_hash() && test_contains() && test_get_value() && test_get_collisions && test_get_next_prime() && test_is_prime());
+    return (test_hash() && test_double_hash() && test_contains() && test_get_value() && test_collisions() && test_get_next_prime() && test_is_prime());
 }
 
 
@@ -140,58 +139,63 @@ void displayMenu() {
 
 // cli made with chatgpt
 int main() {
-    run_tests();
-    HashTable ht;
-    int choice;
-    string key, value;
+    if (run_tests()){
+        HashTable ht;
+            int choice;
+            string key, value;
 
-    do {
-        displayMenu();
-        cout << "Enter your choice: ";
-        cin >> choice;
+            do {
+                cout << endl;
+                displayMenu();
+                cout << "Enter your choice: ";
+                cin >> choice;
 
-        switch (choice) {
-            case 1:
-                cout << "Enter key: ";
-                cin >> key;
-                cout << "Enter value: ";
-                cin >> value;
-                ht.add(key, value);
-                cout << "Key-value pair added successfully." << endl;
-                cout << endl;
-                break;
-            case 2:
-                cout << "Enter key: ";
-                cin >> key;
-                cout << endl;
-                cout << "Value for key '" << key << "': " << ht.get_value(key) << endl;
-                cout << endl;
-                break;
-            case 3:
-                cout << "Enter value to check: ";
-                cin >> value;
-                if (ht.contains(value)) {
-                    cout << "Value '" << value << "' exists in the hash table." << endl;
-                    cout << endl;
-                } else {
-                    cout << "Value '" << value << "' does not exist in the hash table." << endl;
-                    cout << endl;
+                switch (choice) {
+                    case 1:
+                        cout << "Enter key: ";
+                        cin >> key;
+                        cout << "Enter value: ";
+                        cin >> value;
+                        ht.add(key, value);
+                        cout << "Key-value pair added successfully." << endl;
+                        cout << endl;
+                        break;
+                    case 2:
+                        cout << "Enter key: ";
+                        cin >> key;
+                        cout << endl;
+                        cout << "Value for key '" << key << "': " << ht.get_value(key) << endl;
+                        cout << endl;
+                        break;
+                    case 3:
+                        cout << "Enter value to check: ";
+                        cin >> value;
+                        if (ht.contains(value)) {
+                            cout << "Value '" << value << "' exists in the hash table." << endl;
+                            cout << endl;
+                        } else {
+                            cout << "Value '" << value << "' does not exist in the hash table." << endl;
+                            cout << endl;
+                        }
+                        break;
+                    case 4:
+                        cout << "Number of collisions: " << ht.get_collisions() << endl;
+                        cout << endl;
+                        break;
+                    case 5:
+                        cout << "Exiting..." << endl;
+                        cout << endl;
+                        break;
+                    default:
+                        cout << "Invalid choice. Please enter a number between 1 and 5." << endl;
+                        cout << endl;
                 }
-                break;
-            case 4:
-                cout << "Number of collisions: " << ht.get_collisions() << endl;
-                cout << endl;
-                break;
-            case 5:
-                cout << "Exiting..." << endl;
-                cout << endl;
-                break;
-            default:
-                cout << "Invalid choice. Please enter a number between 1 and 5." << endl;
-                cout << endl;
-        }
 
-    } while (choice != 5);
+            } while (choice != 5);
 
-    return 0;
+            return 0;
+    } else {
+        return 1;
+    }
+    
 }

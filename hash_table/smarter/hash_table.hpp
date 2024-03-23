@@ -20,7 +20,7 @@ public:
     int get_capacity();
 
 private:
-    int capacity = 7;
+    int capacity = 53;
     int size = 0;
     int collision_count = 0;
     vector<string> array;
